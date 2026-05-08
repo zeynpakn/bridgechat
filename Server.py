@@ -129,7 +129,11 @@ def handle_tcp_client(client_sock: socket.socket, addr):
             broadcast(full_msg, exclude_username=username)
 
     except Exception as e:
-        print(f"[hata] TCP istemci ({addr}): {e}")
+        # istemci kapandiginda veya baglanti koptugunda hata yollanir
+        if isinstance(e, ConnectionResetError) or (hasattr(e, 'winerror') and e.winerror == 10054):
+            pass
+        else:
+            print(f"[hata] TCP istemci ({addr}): {e}")
 
     finally:
         # ── ASAMA 4: ayrilma & temizlik ──

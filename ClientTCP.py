@@ -51,6 +51,7 @@ if __name__ == "__main__":
         while True:
             username = input().strip()
             if not username:
+                print("Kullanici adi bos olamaz, tekrar giriniz: ", end="", flush=True)
                 continue
             
             sock.sendall(username.encode())
@@ -62,6 +63,9 @@ if __name__ == "__main__":
             if "Hosgeldiniz" in response:
                 break
             # Isim alinmissa sunucu tekrar soracaktir, dongu devam eder
+            else :
+                print("Yeni bir kullanici adini giriniz: ", end="", flush=True)
+
     except Exception as e:
         print(f"\n[hata] Kayit sirasinda sorun olustu: {e}")
         sock.close()
