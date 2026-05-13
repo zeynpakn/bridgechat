@@ -195,6 +195,10 @@ def udp_listener():
         try:
             data, addr = udp_server_socket.recvfrom(BUFFER_SIZE)    # datagram al, gonderen adresi doner
         except Exception as e:
+            # WinError 10054: karsı taraf soketi kapattıgında Windows'un gonderdigi
+            # ICMP "port unreachable" yanıtıdır; gercek bir hata degil, sessizce atla.
+            if hasattr(e, 'winerror') and e.winerror == 10054:
+                continue
             print(f"[hata] UDP alim: {e}")
             continue                                # hatali datagrami atla, dinlemeye devam et
 
